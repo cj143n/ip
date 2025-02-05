@@ -6,7 +6,7 @@ class Doobert {
             System.out.println("No tasks yet!");
             return;
         }
-        System.out.println("Here is your list of tasks: ");
+        System.out.println("Here is your list of tasks:");
         for (int i = 0; i < count - 1; i++) {
             System.out.println((i + 1) + "." + typeOfTask[i] + listOfTasks[i].toString());
         }

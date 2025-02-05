@@ -1,0 +1,6 @@
+todo read a book
+list
+deadline return equipment /by 18 Jan
+event run a marathon /from 28 Nov 2pm /to 28 Nov 6pm
+list
+bye

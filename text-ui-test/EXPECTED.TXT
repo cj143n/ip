@@ -1,7 +1,18 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
-
+Hello! I'm Doobert!
+What can I do for you?
+Task successfully added!
+[T][ ] read a book
+You now have 1 task(s) in the list.
+Here is your list of tasks:
+1.[T][ ] read a book
+Task successfully added!
+[D][ ] return equipment (by: 18 Jan)
+You now have 2 task(s) in the list.
+Task successfully added!
+[E][ ] run a marathon (from: 28 Nov 2pm to: 28 Nov 6pm)
+You now have 3 task(s) in the list.
+Here is your list of tasks:
+1.[T][ ] read a book
+2.[D][ ] return equipment (by: 18 Jan)
+3.[E][ ] run a marathon (from: 28 Nov 2pm to: 28 Nov 6pm)
+Bye! See you later alligator
