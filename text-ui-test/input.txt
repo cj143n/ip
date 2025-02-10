@@ -1,6 +1,10 @@
 todo read a book
 list
 deadline return equipment /by 18 Jan
+mark 1
+list
 event run a marathon /from 28 Nov 2pm /to 28 Nov 6pm
+list
+unmark 1
 list
 bye
