@@ -63,37 +63,67 @@ class Doobert {
         }
     }
 
-    public static boolean addTask(Task[] listOfTasks, int count, String line) { //differentiate between event, deadline, todo
+    public static boolean isTaskAdded(Task[] listOfTasks, int count, String line) { //differentiate between event, deadline, todo
         try {
             String firstWord = line.split(" ")[0];
             switch (firstWord) {
             case "todo":
+                String task = line.substring(INDEX_AFTER_TODO).trim();
+                if (task.isEmpty()) {
+                    throw new IndexOutOfBoundsException("Todo is empty! Please add an appropriate name :P");
+                }
                 listOfTasks[count - 1] = new Todo(line.substring(INDEX_AFTER_TODO).trim());
                 break;
 
             case "deadline":
                 int slashIndex = line.indexOf('/');
-                if (slashIndex == -1 || !(line.substring(slashIndex + 1).startsWith("by "))) {
+                if (slashIndex == -1 || !(line.substring(slashIndex + 1).startsWith("by"))) {
                     throw new IllegalArgumentException("Invalid deadline format. Use: deadline task /by date");
                 }
 
                 String desc = line.substring(INDEX_AFTER_DEADLINE, slashIndex).trim();
-                String date = line.substring(slashIndex + INDEX_AFTER_BY).trim();
+                if (desc.isEmpty()) {
+                    throw new IllegalArgumentException("Deadline is empty! Please add an appropriate name :P");
+                }
+
+                String date = (slashIndex + INDEX_AFTER_BY < line.length())
+                        ? line.substring(slashIndex + INDEX_AFTER_BY).trim()
+                        : "";
+                if (date.isEmpty()) {
+                    throw new IllegalArgumentException("No date entered, please enter a date!");
+                }
+
                 listOfTasks[count - 1] = new Deadline(desc, date);
                 break;
 
             case "event":
                 int firstSlashIndex = line.indexOf('/');
                 int secondSlashIndex = line.indexOf('/', firstSlashIndex + INDEX_AFTER_FROM);
-                boolean isFromFound = line.substring(firstSlashIndex + 1).startsWith("from ");
-                boolean isToFound = line.substring(secondSlashIndex + 1).trim().startsWith("to ");
+                boolean isFromFound = line.substring(firstSlashIndex + 1).startsWith("from");
+                boolean isToFound = line.substring(secondSlashIndex + 1).trim().startsWith("to");
                 if (firstSlashIndex == -1 || secondSlashIndex == -1 || !isFromFound || !isToFound) {
-                    throw new IllegalArgumentException("Invalid deadline format. Use: event task /from date /to date");
+                    throw new IllegalArgumentException("Invalid event format. Use: event task /from date /to date");
                 }
 
                 String description = line.substring(INDEX_AFTER_EVENT, firstSlashIndex).trim();
-                String from = line.substring(firstSlashIndex + INDEX_AFTER_FROM, secondSlashIndex).trim();
-                String to = line.substring(secondSlashIndex+ INDEX_AFTER_TO).trim();
+                if (description.isEmpty()) {
+                    throw new IndexOutOfBoundsException("Event is empty! Please add an appropriate name :P");
+                }
+
+                String from = (firstSlashIndex + INDEX_AFTER_FROM < line.length())
+                        ? line.substring(firstSlashIndex + INDEX_AFTER_FROM, secondSlashIndex).trim()
+                        : "";
+                if (from.isEmpty()) {
+                    throw new IllegalArgumentException("No from date entered, please enter a date!");
+                }
+
+                String to = (secondSlashIndex + INDEX_AFTER_TO < line.length())
+                        ? line.substring(secondSlashIndex+ INDEX_AFTER_TO).trim()
+                        : "";
+                if (to.isEmpty()) {
+                    throw new IllegalArgumentException("No to date entered, please enter a date!");
+                }
+
                 listOfTasks[count - 1] = new Event(description, from, to);
                 break;
             default:
@@ -134,11 +164,10 @@ class Doobert {
                 } else if (inputLine.matches("^unmark \\d+$")) { //marks xx as undone
                     unmarkTask(listOfTasks, count, inputLine);
                 } else {
-                    boolean isAdded = addTask(listOfTasks, count, inputLine);
+                    boolean isAdded = isTaskAdded(listOfTasks, count, inputLine);
                     if (isAdded) {
                         count++;
                     }
-
                 }
             } catch (Exception e) {
                 System.out.println("Unexpected error: " + e.getMessage());

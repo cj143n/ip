@@ -1,10 +1,14 @@
+abcde
 todo read a book
 list
+todo
 deadline return equipment /by 18 Jan
 mark 1
 list
+deadline buy my friend a gift /by
 event run a marathon /from 28 Nov 2pm /to 28 Nov 6pm
 list
 unmark 1
+event meet my friends /from 31 Dec 5pm /to
 list
 bye

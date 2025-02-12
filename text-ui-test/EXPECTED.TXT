@@ -1,12 +1,19 @@
 Hello! I'm Doobert!
 What can I do for you?
 --------------------------------------------------
+Unknown task type. Please use either formats:
+1. todo task
+2. deadline task /by date
+3. event task /from date /to date
+--------------------------------------------------
 Task successfully added!
 [T][ ] read a book
 You now have 1 task(s) in the list.
 --------------------------------------------------
 Here is your list of tasks:
 1.[T][ ] read a book
+--------------------------------------------------
+Unexpected error: Todo is empty! Please add an appropriate name :P
 --------------------------------------------------
 Task successfully added!
 [D][ ] return equipment (by: 18 Jan)
@@ -19,6 +26,8 @@ Here is your list of tasks:
 1.[T][X] read a book
 2.[D][ ] return equipment (by: 18 Jan)
 --------------------------------------------------
+No date entered, please enter a date!
+--------------------------------------------------
 Task successfully added!
 [E][ ] run a marathon (from: 28 Nov 2pm to: 28 Nov 6pm)
 You now have 3 task(s) in the list.
@@ -30,6 +39,8 @@ Here is your list of tasks:
 --------------------------------------------------
 Task successfully unmarked!
 [T][ ] read a book
+--------------------------------------------------
+No to date entered, please enter a date!
 --------------------------------------------------
 Here is your list of tasks:
 1.[T][ ] read a book
