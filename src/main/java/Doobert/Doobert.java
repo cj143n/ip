@@ -1,4 +1,7 @@
+package Doobert;
+
 import java.util.Scanner;
+import Tasks.*;
 
 class Doobert {
     private static final int MAX_NO_OF_TASKS = 100;
