@@ -2,6 +2,7 @@ package Doobert;
 
 import java.util.Scanner;
 import Tasks.*;
+import FileManager.TaskFile;
 
 class Doobert {
     private static final int MAX_NO_OF_TASKS = 100;
@@ -37,6 +38,9 @@ class Doobert {
             listOfTasks[taskNum - 1].markDone();
             System.out.println("Task successfully marked!");
             System.out.println(listOfTasks[taskNum - 1].toString());
+
+            TaskFile.editLineInTaskFile(taskNum - 1, listOfTasks[taskNum - 1].toString());
+
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: mark <number>");
@@ -56,6 +60,9 @@ class Doobert {
             listOfTasks[taskNum - 1].markUndone();
             System.out.println("Task successfully unmarked!");
             System.out.println(listOfTasks[taskNum - 1].toString());
+
+            TaskFile.editLineInTaskFile(taskNum - 1, listOfTasks[taskNum - 1].toString());
+
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: unmark <number>");
@@ -76,6 +83,8 @@ class Doobert {
                     throw new IndexOutOfBoundsException("Todo is empty! Please add an appropriate name :P");
                 }
                 listOfTasks[count - 1] = new Todo(line.substring(INDEX_AFTER_TODO).trim());
+
+                TaskFile.appendTaskFile(listOfTasks[count - 1].toString());
                 break;
 
             case "deadline":
@@ -97,6 +106,7 @@ class Doobert {
                 }
 
                 listOfTasks[count - 1] = new Deadline(desc, date);
+                TaskFile.appendTaskFile(listOfTasks[count - 1].toString());
                 break;
 
             case "event":
@@ -128,6 +138,7 @@ class Doobert {
                 }
 
                 listOfTasks[count - 1] = new Event(description, from, to);
+                TaskFile.appendTaskFile(listOfTasks[count - 1].toString());
                 break;
             default:
                 throw new IllegalArgumentException("""
@@ -153,8 +164,13 @@ class Doobert {
         Task[] listOfTasks = new Task[MAX_NO_OF_TASKS];
         int count = 1;
 
-        System.out.println("Hello! I'm Doobert!");
-        System.out.println("What can I do for you?");
+        System.out.println("Hello! I'm Doobert!\n");
+
+        System.out.println("These are your previously recorded tasks:");
+        TaskFile.printTaskFileContents();
+        count = TaskFile.updateTaskArray(listOfTasks);
+
+        System.out.println("\nWhat can I do for you today?");
         System.out.println(DASH);
 
         String inputLine = input.nextLine();
