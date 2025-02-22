@@ -2,6 +2,7 @@ package Doobert;
 
 import java.util.Scanner;
 import Tasks.*;
+import java.util.ArrayList;
 
 class Doobert {
     private static final int MAX_NO_OF_TASKS = 100;
@@ -13,30 +14,31 @@ class Doobert {
     private static final int INDEX_AFTER_BY = 4;
     private static final int INDEX_AFTER_FROM = 5;
     private static final int INDEX_AFTER_TO = 4;
+    private static final int INDEX_AFTER_DELETE = 7;
     private static final String DASH = "--------------------------------------------------";
 
-    public static void listTasks(Task[] listOfTasks, int count) {
-        if (count == 1) {
+    public static void listTasks(ArrayList<Tasks.Task> listOfTasks) {
+        if (listOfTasks.isEmpty()) {
             System.out.println("No tasks yet!");
             System.out.println(DASH);
             return;
         }
         System.out.println("Here is your list of tasks:");
-        for (int i = 0; i < count - 1; i++) {
-            System.out.println((i + 1) + "." + listOfTasks[i].toString());
+        for (int i = 0; i < listOfTasks.size(); i++) {
+            System.out.println((i + 1) + "." + listOfTasks.get(i).toString());
         }
         System.out.println(DASH);
     }
 
-    public static void markTask(Task[] listOfTasks, int count, String line) {
+    public static void markTask(ArrayList<Tasks.Task> listOfTasks, String line) {
         try {
             int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_MARK).trim());
-            if (taskNum < 1 || taskNum >= count) {
+            if (taskNum < 1 || taskNum > listOfTasks.size()) {
                 throw new IndexOutOfBoundsException("Invalid task number");
             }
-            listOfTasks[taskNum - 1].markDone();
+            listOfTasks.get(taskNum - 1).markDone();
             System.out.println("Task successfully marked!");
-            System.out.println(listOfTasks[taskNum - 1].toString());
+            System.out.println(listOfTasks.get(taskNum - 1).toString());
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: mark <number>");
@@ -47,15 +49,15 @@ class Doobert {
         }
     }
 
-    public static void unmarkTask(Task[] listOfTasks, int count, String line) {
+    public static void unmarkTask(ArrayList<Tasks.Task> listOfTasks, String line) {
         try {
             int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_UNMARK).trim());
-            if (taskNum < 1 || taskNum >= count) {
+            if (taskNum < 1 || taskNum > listOfTasks.size()) {
                 throw new IndexOutOfBoundsException("Invalid task number");
             }
-            listOfTasks[taskNum - 1].markUndone();
+            listOfTasks.get(taskNum - 1).markUndone();
             System.out.println("Task successfully unmarked!");
-            System.out.println(listOfTasks[taskNum - 1].toString());
+            System.out.println(listOfTasks.get(taskNum - 1).toString());
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: unmark <number>");
@@ -66,7 +68,7 @@ class Doobert {
         }
     }
 
-    public static boolean isTaskAdded(Task[] listOfTasks, int count, String line) { //differentiate between event, deadline, todo
+    public static void addTask(ArrayList<Tasks.Task> listOfTasks, String line) { //differentiate between event, deadline, todo
         try {
             String firstWord = line.split(" ")[0];
             switch (firstWord) {
@@ -75,7 +77,7 @@ class Doobert {
                 if (task.isEmpty()) {
                     throw new IndexOutOfBoundsException("Todo is empty! Please add an appropriate name :P");
                 }
-                listOfTasks[count - 1] = new Todo(line.substring(INDEX_AFTER_TODO).trim());
+                listOfTasks.add(new Todo(line.substring(INDEX_AFTER_TODO).trim()));
                 break;
 
             case "deadline":
@@ -96,7 +98,7 @@ class Doobert {
                     throw new IllegalArgumentException("No date entered, please enter a date!");
                 }
 
-                listOfTasks[count - 1] = new Deadline(desc, date);
+                listOfTasks.add(new Deadline(desc, date));
                 break;
 
             case "event":
@@ -127,7 +129,7 @@ class Doobert {
                     throw new IllegalArgumentException("No to date entered, please enter a date!");
                 }
 
-                listOfTasks[count - 1] = new Event(description, from, to);
+                listOfTasks.add(new Event(description, from, to));
                 break;
             default:
                 throw new IllegalArgumentException("""
@@ -137,40 +139,58 @@ class Doobert {
                         3. event task /from date /to date""");
             }
             System.out.println("Task successfully added!");
-            System.out.println(listOfTasks[count - 1].toString());
-            System.out.println("You now have " + count + " task(s) in the list.");
+            System.out.println(listOfTasks.get(listOfTasks.size() - 1).toString());
+            System.out.println("You now have " + listOfTasks.size() + " task(s) in the list.");
             System.out.println(DASH);
-            return true;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             System.out.println(DASH);
-            return false;
+        }
+    }
+
+    public static void deleteTask(ArrayList<Tasks.Task> listOfTasks, String line) {
+        try {
+            int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_DELETE).trim());
+            if (taskNum < 1 || taskNum > listOfTasks.size()) {
+                throw new IndexOutOfBoundsException("Invalid task number");
+            }
+
+            System.out.println("Task successfully deleted!");
+            System.out.println(listOfTasks.get(taskNum - 1).toString());
+            listOfTasks.remove(taskNum - 1);
+            System.out.println("You now have " + listOfTasks.size() + " task(s) in the list.");
+            System.out.println(DASH);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid task format. Use: delete <number");
+            System.out.println(DASH);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            System.out.println(DASH);
         }
     }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        Task[] listOfTasks = new Task[MAX_NO_OF_TASKS];
-        int count = 1;
+        ArrayList<Tasks.Task> listOfTasks = new ArrayList<>();
 
         System.out.println("Hello! I'm Doobert!");
         System.out.println("What can I do for you?");
         System.out.println(DASH);
 
         String inputLine = input.nextLine();
-        while (!inputLine.equals("bye") && count <= MAX_NO_OF_TASKS) {
+        while (!inputLine.equals("bye") && listOfTasks.size() <= MAX_NO_OF_TASKS) {
             try {
                 if (inputLine.equals("list")) { //lists out todo list
-                    listTasks(listOfTasks, count); //typeOfTask, count);
+                    listTasks(listOfTasks);
                 } else if (inputLine.matches("^mark \\d+$")) { //marks xx as done
-                    markTask(listOfTasks, count, inputLine);
+                    markTask(listOfTasks, inputLine);
                 } else if (inputLine.matches("^unmark \\d+$")) { //marks xx as undone
-                    unmarkTask(listOfTasks, count, inputLine);
+                    unmarkTask(listOfTasks, inputLine);
+                } else if (inputLine.matches("^delete \\d+$")) {
+                    deleteTask(listOfTasks, inputLine);
                 } else {
-                    boolean isAdded = isTaskAdded(listOfTasks, count, inputLine);
-                    if (isAdded) {
-                        count++;
-                    }
+                    addTask(listOfTasks, inputLine);
                 }
             } catch (Exception e) {
                 System.out.println("Unexpected error: " + e.getMessage());
