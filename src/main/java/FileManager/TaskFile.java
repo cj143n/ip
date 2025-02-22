@@ -4,7 +4,6 @@ import Tasks.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class TaskFile {
@@ -44,6 +43,7 @@ public class TaskFile {
         if (taskFile.exists()) {
             try (FileWriter fw = new FileWriter(FILE_PATH, true)) {
                 fw.write(task + System.lineSeparator());
+                fw.close();
             } catch (IOException e) {
                 System.out.println("File write failed: " + e.getMessage());
             }
@@ -54,7 +54,6 @@ public class TaskFile {
 
     public static void editLineInTaskFile(int lineNum, String task) {
         File taskFile = new File(FILE_PATH);
-        List<String> lines = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(taskFile)); //allows us to read file line by line
@@ -83,12 +82,45 @@ public class TaskFile {
         }
     }
 
+    public static void deleteLineInTaskFile(int lineNum) {
+        File taskFile = new File(FILE_PATH);
+        File tempFile = new File("./data/temp.txt");
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(taskFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            int currentLineNum = 1;
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (currentLineNum != lineNum) {
+                    writer.write(line + System.lineSeparator());
+                }
+                currentLineNum++;
+            }
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Line deletion in file failed: " + e.getMessage());
+        }
+
+        if (!taskFile.delete()) {
+            System.out.println("Failed to delete original file.");
+            return;
+        }
+        if (!tempFile.renameTo(taskFile)) {
+            System.out.println("Failed to rename temp file.");
+        }
+    }
+
     public static void printTaskFileContents() {
         File taskFile = new File(FILE_PATH);
         try (Scanner s = new Scanner(taskFile)) {
             while (s.hasNext()) {
                 System.out.println(s.nextLine());
             }
+            s.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found, the file may not have been created yet! Add a task to create it!");
         }
@@ -141,6 +173,7 @@ public class TaskFile {
                     listOfTasks.get(listOfTasks.size() - 1).markDone();
                 }
             }
+            reader.close();
         } catch (IOException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }

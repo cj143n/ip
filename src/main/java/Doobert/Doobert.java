@@ -168,8 +168,10 @@ class Doobert {
             }
 
             System.out.println("Task successfully deleted!");
+            TaskFile.deleteLineInTaskFile(taskNum);
             System.out.println(listOfTasks.get(taskNum - 1).toString());
             listOfTasks.remove(taskNum - 1);
+
             System.out.println("You now have " + listOfTasks.size() + " task(s) in the list.");
             System.out.println(DASH);
 
@@ -189,7 +191,7 @@ class Doobert {
         System.out.println("Hello! I'm Doobert!\n");
 
         System.out.println("These are your previously recorded tasks:");
-        TaskFile.printTaskFileContents();;
+        TaskFile.printTaskFileContents();
         TaskFile.updateTaskArray(listOfTasks);
 
         System.out.println("\nWhat can I do for you today?");
