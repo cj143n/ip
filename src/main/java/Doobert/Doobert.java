@@ -2,6 +2,8 @@ package Doobert;
 
 import java.util.Scanner;
 import Tasks.*;
+import FileManager.TaskFile;
+
 import java.util.ArrayList;
 
 class Doobert {
@@ -38,7 +40,10 @@ class Doobert {
             }
             listOfTasks.get(taskNum - 1).markDone();
             System.out.println("Task successfully marked!");
+
             System.out.println(listOfTasks.get(taskNum - 1).toString());
+            TaskFile.editLineInTaskFile(taskNum - 1, listOfTasks.get(taskNum - 1).toString());
+
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: mark <number>");
@@ -57,7 +62,10 @@ class Doobert {
             }
             listOfTasks.get(taskNum - 1).markUndone();
             System.out.println("Task successfully unmarked!");
+
             System.out.println(listOfTasks.get(taskNum - 1).toString());
+            TaskFile.editLineInTaskFile(taskNum - 1, listOfTasks.get(taskNum - 1).toString());
+
             System.out.println(DASH);
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: unmark <number>");
@@ -77,7 +85,9 @@ class Doobert {
                 if (task.isEmpty()) {
                     throw new IndexOutOfBoundsException("Todo is empty! Please add an appropriate name :P");
                 }
+
                 listOfTasks.add(new Todo(line.substring(INDEX_AFTER_TODO).trim()));
+                TaskFile.appendTaskFile(listOfTasks.get(listOfTasks.size() - 1).toString());
                 break;
 
             case "deadline":
@@ -99,6 +109,7 @@ class Doobert {
                 }
 
                 listOfTasks.add(new Deadline(desc, date));
+                TaskFile.appendTaskFile(listOfTasks.get(listOfTasks.size() - 1).toString());
                 break;
 
             case "event":
@@ -130,6 +141,7 @@ class Doobert {
                 }
 
                 listOfTasks.add(new Event(description, from, to));
+                TaskFile.appendTaskFile(listOfTasks.get(listOfTasks.size() - 1).toString());
                 break;
             default:
                 throw new IllegalArgumentException("""
@@ -174,8 +186,13 @@ class Doobert {
         Scanner input = new Scanner(System.in);
         ArrayList<Tasks.Task> listOfTasks = new ArrayList<>();
 
-        System.out.println("Hello! I'm Doobert!");
-        System.out.println("What can I do for you?");
+        System.out.println("Hello! I'm Doobert!\n");
+
+        System.out.println("These are your previously recorded tasks:");
+        TaskFile.printTaskFileContents();;
+        TaskFile.updateTaskArray(listOfTasks);
+
+        System.out.println("\nWhat can I do for you today?");
         System.out.println(DASH);
 
         String inputLine = input.nextLine();
