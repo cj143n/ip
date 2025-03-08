@@ -1,13 +1,22 @@
 package FileManager;
 
-import Tasks.*;
+import TaskList.TaskList;
+import Tasks.Todo;
+import Tasks.Event;
+import Tasks.Deadline;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TaskFile {
-    private static final String FILE_PATH = "./data/Doobert.txt";
+    private String filePath;
+
+    public TaskFile(String filePath) {
+        this.filePath = filePath;
+    }
+
+    //private static final String FILE_PATH = "./data/Doobert.txt";
     private static final int INDEX_OF_TASK = 1;
     private static final int INDEX_OF_STATUS = 4;
     private static final int INDEX_OF_DESCRIPTION = 6;
@@ -15,8 +24,8 @@ public class TaskFile {
     private static final int INDEX_AFTER_FROM = 6;
     private static final int INDEX_AFTER_TO = 4;
 
-    public static void createTaskFile() {
-        File taskFile = new File(FILE_PATH);
+    public void createTaskFile() {
+        File taskFile = new File(filePath);
         File parentDirectory = taskFile.getParentFile(); //get data/ directory
 
         try {
@@ -38,10 +47,10 @@ public class TaskFile {
         }
     }
 
-    public static void appendTaskFile(String task) {
-        File taskFile = new File(FILE_PATH);
+    public void appendTaskFile(String task) {
+        File taskFile = new File(filePath);
         if (taskFile.exists()) {
-            try (FileWriter fw = new FileWriter(FILE_PATH, true)) {
+            try (FileWriter fw = new FileWriter(filePath, true)) {
                 fw.write(task + System.lineSeparator());
                 fw.close();
             } catch (IOException e) {
@@ -52,8 +61,8 @@ public class TaskFile {
         }
     }
 
-    public static void editLineInTaskFile(int lineNum, String task) {
-        File taskFile = new File(FILE_PATH);
+    public void editLineInTaskFile(int lineNum, String task) {
+        File taskFile = new File(filePath);
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(taskFile)); //allows us to read file line by line
@@ -71,7 +80,7 @@ public class TaskFile {
             }
             reader.close();
 
-            FileOutputStream outputFile = new FileOutputStream(FILE_PATH);
+            FileOutputStream outputFile = new FileOutputStream(filePath);
             outputFile.write(inputBuffer.toString().getBytes()); //rewrites file
             outputFile.close();
 
@@ -82,8 +91,8 @@ public class TaskFile {
         }
     }
 
-    public static void deleteLineInTaskFile(int lineNum) {
-        File taskFile = new File(FILE_PATH);
+    public void deleteLineInTaskFile(int lineNum) {
+        File taskFile = new File(filePath);
         File tempFile = new File("./data/temp.txt");
 
         try {
@@ -114,8 +123,8 @@ public class TaskFile {
         }
     }
 
-    public static void printTaskFileContents() {
-        File taskFile = new File(FILE_PATH);
+    public void printTaskFileContents() {
+        File taskFile = new File(filePath);
         try (Scanner s = new Scanner(taskFile)) {
             while (s.hasNext()) {
                 System.out.println(s.nextLine());
@@ -126,8 +135,8 @@ public class TaskFile {
         }
     }
 
-    public static void updateTaskArray(ArrayList<Task> listOfTasks) {
-        File taskFile = new File(FILE_PATH);
+    public void updateTaskArray(TaskList listOfTasks) {
+        File taskFile = new File(filePath);
 
         if (!taskFile.exists()) {
             createTaskFile();
@@ -137,7 +146,6 @@ public class TaskFile {
             BufferedReader reader = new BufferedReader(new FileReader(taskFile));
             String line;
 
-            //int currentLineNum = 0;
             while ((line = reader.readLine()) != null) {
                 char typeOfTask = line.charAt(INDEX_OF_TASK);
                 char taskStatus = line.charAt(INDEX_OF_STATUS);
