@@ -19,6 +19,7 @@ public class TaskList {
     private static final int INDEX_AFTER_FROM = 5;
     private static final int INDEX_AFTER_TO = 4;
     private static final int INDEX_AFTER_DELETE = 7;
+    private static final int INDEX_AFTER_FIND = 5;
 
     private ArrayList<Task> tasks;
 
@@ -197,6 +198,40 @@ public class TaskList {
         } catch (NumberFormatException e) {
             System.out.println("Invalid task format. Use: delete <number");
             System.out.println(DASH);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            System.out.println(DASH);
+        }
+    }
+
+    public void find(TaskFile taskFile, String line) {
+        try {
+            String keyword = line.substring(INDEX_AFTER_FIND).trim();
+            if (keyword.split(" ").length > 1) {
+                throw new IndexOutOfBoundsException("More than one keyword detected. Please enter only one word");
+            } else if (keyword.isEmpty()) {
+                throw new IndexOutOfBoundsException("Keyword is empty! Please add a keyword :P");
+            }
+
+            int count = 0;
+            for (Task task : tasks) {
+                if (task.getDescription().contains(keyword)) {
+                    if (count == 0) {
+                        System.out.println("Here are the matching tasks in your list:");
+                    }
+                    count += 1;
+                    System.out.print(count);
+                    System.out.println(". " + task.toString());
+                }
+            }
+
+            if (count == 0) {
+                System.out.println("No matching tasks :(");
+            }
+
+            System.out.println(DASH);
+
+
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             System.out.println(DASH);

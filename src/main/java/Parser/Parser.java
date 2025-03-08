@@ -23,6 +23,8 @@ public class Parser {
                  taskList.unmarkTask(taskFile, input);
              } else if (input.matches("^delete \\d+$")) {
                  taskList.deleteTask(taskFile, input);
+             } else if (input.startsWith("find ")) {
+                 taskList.find(taskFile, input);
              } else {
                  taskList.addTask(taskFile, input);
              }

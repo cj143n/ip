@@ -131,7 +131,7 @@ public class TaskFile {
             }
             s.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found, the file may not have been created yet! Add a task to create it!");
+            System.out.println("File not found, the file may not have been created yet!");
         }
     }
 
