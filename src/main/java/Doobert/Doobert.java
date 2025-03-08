@@ -7,11 +7,9 @@ import TaskList.TaskList;
 import Parser.Parser;
 import Ui.Ui;
 
-import java.util.ArrayList;
 
 class Doobert {
     private static final int MAX_NO_OF_TASKS = 100;
-    //private static final String FILE_PATH = "./data/Doobert.txt";
 
     private TaskFile taskFile;
     private TaskList tasks;
@@ -28,7 +26,6 @@ class Doobert {
 
     public void run() {
         Scanner input = new Scanner(System.in);
-//        ArrayList<Tasks.Task> listOfTasks = new ArrayList<>();
 
         ui.welcomeMessage(taskFile, tasks);
 

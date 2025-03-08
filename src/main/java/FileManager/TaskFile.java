@@ -6,7 +6,6 @@ import Tasks.Event;
 import Tasks.Deadline;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TaskFile {
@@ -16,7 +15,6 @@ public class TaskFile {
         this.filePath = filePath;
     }
 
-    //private static final String FILE_PATH = "./data/Doobert.txt";
     private static final int INDEX_OF_TASK = 1;
     private static final int INDEX_OF_STATUS = 4;
     private static final int INDEX_OF_DESCRIPTION = 6;
@@ -26,7 +24,7 @@ public class TaskFile {
 
     public void createTaskFile() {
         File taskFile = new File(filePath);
-        File parentDirectory = taskFile.getParentFile(); //get data/ directory
+        File parentDirectory = taskFile.getParentFile();
 
         try {
             if (!parentDirectory.exists()) {

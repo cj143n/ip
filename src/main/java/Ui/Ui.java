@@ -1,10 +1,7 @@
 package Ui;
 
 import FileManager.TaskFile;
-import Tasks.Task;
 import TaskList.TaskList;
-
-import java.util.ArrayList;
 
 public class Ui {
     private static final String DASH = "--------------------------------------------------";

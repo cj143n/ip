@@ -2,16 +2,11 @@ package Parser;
 
 import FileManager.TaskFile;
 import TaskList.TaskList;
-//import TaskList.taskList;
-import Tasks.Task;
-
-import java.util.ArrayList;
 
 
 public class Parser {
 
     private static final String DASH = "--------------------------------------------------";
-
 
     public void readInput(String input, TaskList taskList, TaskFile taskFile) {
          try {

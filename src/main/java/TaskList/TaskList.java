@@ -228,9 +228,7 @@ public class TaskList {
             if (count == 0) {
                 System.out.println("No matching tasks :(");
             }
-
             System.out.println(DASH);
-
 
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
