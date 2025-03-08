@@ -8,6 +8,10 @@ import Tasks.Todo;
 
 import java.util.ArrayList;
 
+/**
+ * The TaskList class manages all the tasks that has been successfully input by the user in the Doobert task manager.
+ */
+
 public class TaskList {
     private static final String DASH = "--------------------------------------------------";
     private static final int INDEX_AFTER_MARK = 5;
@@ -23,14 +27,24 @@ public class TaskList {
 
     private ArrayList<Task> tasks;
 
+    /**
+     * Instantiates an instance of the TaskList
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Tells us the number of tasks in the ArrayList tasks
+     * @return Size of ArrayList
+     */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Lists out all the tasks in the ArrayList tasks
+     */
     public void listTasks() {
         if (tasks.isEmpty()) {
             System.out.println("No tasks yet!");
@@ -44,6 +58,11 @@ public class TaskList {
         System.out.println(DASH);
     }
 
+    /**
+     * Marks task in the ArrayList tasks as done
+     * @param taskFile File where tasks are saved in
+     * @param line Index of task to be marked
+     */
     public void markTask(TaskFile taskFile, String line) {
         try {
             int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_MARK).trim());
@@ -66,6 +85,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Unmarks task in the ArrayList tasks
+     * @param taskFile File where tasks are saved in
+     * @param line Index of task to be unmarked
+     */
     public void unmarkTask(TaskFile taskFile, String line) {
         try {
             int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_UNMARK).trim());
@@ -88,6 +112,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Adds task into ArrayList tasks and TaskFile taskFile
+     * @param taskFile File where tasks are saved in
+     * @param line Task to be added
+     */
     public void addTask(TaskFile taskFile, String line) { //differentiate between event, deadline, todo
         try {
             String firstWord = line.split(" ")[0];
@@ -180,6 +209,11 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    /**
+     * Deletes task from ArrayList tasks and TaskFile taskFile
+     * @param taskFile File where tasks are saved in
+     * @param line Index of task to be deleted
+     */
     public void deleteTask(TaskFile taskFile, String line) {
         try {
             int taskNum = Integer.parseInt(line.substring(INDEX_AFTER_DELETE).trim());
@@ -204,6 +238,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Looks through entire ArrayList tasks and output tasks that contain the keyword
+     * @param taskFile File where tasks are saved in
+     * @param line Keyword to look for in ArrayList tasks
+     */
     public void find(TaskFile taskFile, String line) {
         try {
             String keyword = line.substring(INDEX_AFTER_FIND).trim();

@@ -8,9 +8,16 @@ import Tasks.Deadline;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * The TaskFile class manages the storing of task data from Doobert task manager into the filePath given
+ */
 public class TaskFile {
     private String filePath;
 
+    /**
+     * Instantiates instance of TaskFile
+     * @param filePath File where tasks are saved in
+     */
     public TaskFile(String filePath) {
         this.filePath = filePath;
     }
@@ -22,6 +29,9 @@ public class TaskFile {
     private static final int INDEX_AFTER_FROM = 6;
     private static final int INDEX_AFTER_TO = 4;
 
+    /**
+     * Creates a text file in the filePath if it does not exist
+     */
     public void createTaskFile() {
         File taskFile = new File(filePath);
         File parentDirectory = taskFile.getParentFile();
@@ -45,6 +55,10 @@ public class TaskFile {
         }
     }
 
+    /**
+     * Adds on a task to the task file
+     * @param task Task to be written into the file
+     */
     public void appendTaskFile(String task) {
         File taskFile = new File(filePath);
         if (taskFile.exists()) {
@@ -59,6 +73,11 @@ public class TaskFile {
         }
     }
 
+    /**
+     * Edits corresponding line in file
+     * @param lineNum Line index of task to be edited
+     * @param task Task overwriting previous task
+     */
     public void editLineInTaskFile(int lineNum, String task) {
         File taskFile = new File(filePath);
 
@@ -89,6 +108,10 @@ public class TaskFile {
         }
     }
 
+    /**
+     * Deletes a line in file
+     * @param lineNum Line index of task to be deleted
+     */
     public void deleteLineInTaskFile(int lineNum) {
         File taskFile = new File(filePath);
         File tempFile = new File("./data/temp.txt");
@@ -121,6 +144,9 @@ public class TaskFile {
         }
     }
 
+    /**
+     * Prints out all contents stored in file
+     */
     public void printTaskFileContents() {
         File taskFile = new File(filePath);
         try (Scanner s = new Scanner(taskFile)) {
@@ -133,6 +159,10 @@ public class TaskFile {
         }
     }
 
+    /**
+     * Updates the ArrayList listOfTasks with the data stored in file when Doobert task manager is rerun
+     * @param listOfTasks ArrayList of tasks
+     */
     public void updateTaskArray(TaskList listOfTasks) {
         File taskFile = new File(filePath);
 

@@ -7,6 +7,10 @@ import TaskList.TaskList;
 import Parser.Parser;
 import Ui.Ui;
 
+/**
+ * The Doobert class implements a Task Manager whereby user can input their tasks, mark, delete and list them.
+ * The data will then be stored in a text file on their computer.
+ */
 
 class Doobert {
     private static final int MAX_NO_OF_TASKS = 100;
@@ -16,6 +20,10 @@ class Doobert {
     private Ui ui;
     private Parser parser;
 
+    /**
+     * Initialises an instance of Doobert with necessary helper classes
+     * @param filePath Path of file where the user's list of tasks will be saved in
+     */
     public Doobert(String filePath) {
         ui = new Ui();
         taskFile = new TaskFile(filePath);
