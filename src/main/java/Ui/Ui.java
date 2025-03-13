@@ -12,7 +12,7 @@ public class Ui {
     public Ui() {}
 
     /**
-     * Prints out welcome message to user and updates the listOfTasks with data loaded from taskFile
+     * Prints a welcome message to user and updates the listOfTasks with data loaded from taskFile
      * @param taskFile File where tasks are saved in
      * @param listOfTasks ArrayList of tasks
      */
